@@ -32,6 +32,8 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
+psutil = "^5.8.0"
+fastavro = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b"
