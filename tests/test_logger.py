@@ -8,3 +8,4 @@ def test_logger():
         log.info("Testing")
         stack = log.stack
         assert stack[0]['level'] == "INFO"
+        assert stack[0]['message'] == "Testing"

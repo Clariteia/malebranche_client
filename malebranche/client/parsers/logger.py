@@ -1,16 +1,23 @@
 import typing as t
 from datetime import datetime
 import orjson
+import uuid
 
-from malebranche.client import MessageFormatNotValid
+from malebranche.client.exceptions import MessageFormatNotValid
 
 
 class LoggerParser(object):
-    __slots__ = "_level", "_messages"
+    __slots__ = "_level", "_messages", "_uuid", "_parent"
 
-    def __init__(self, level="INFO"):
+    def __init__(self, level="INFO", parent=None):
         self._level = level
         self._messages = []
+        uuid_instance = uuid.uuid1()
+        self._uuid = str(uuid_instance)
+        if parent is not None:
+            self._parent = parent
+        else:
+            self._parent = None
 
     @property
     def stack(self):
@@ -41,6 +48,7 @@ class LoggerParser(object):
             "level": level,
             "message": self.__get_formatted_message(message)
         })
+
     def __get_formatted_message(self, message: t.Any) -> str:
         if isinstance(message, str):
             return message

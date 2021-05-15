@@ -17,7 +17,11 @@ class Malebranche(object):
 
     @contextmanager
     def logger(self, level="INFO"):
-        log = LoggerParser(level)
+        context = _EXECUTION_LOG_CONTEXT.get()
+        if context is not None:
+            log = LoggerParser(level, parent=context)
+        else:
+            log = LoggerParser(level)
         yield log
         log.send()
 
