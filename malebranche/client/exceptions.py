@@ -1,0 +1,1 @@
+class MessageFormatNotValid(Exception): pass

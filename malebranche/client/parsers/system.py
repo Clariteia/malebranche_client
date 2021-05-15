@@ -6,7 +6,7 @@ CPU = namedtuple('CPU', ['num', 'percentage'])
 RAM = namedtuple('RAM', ['total', 'available', 'used', 'free', 'percent'])
 
 
-class SystemImporter(object):
+class SystemParser(object):
     __slots__ = '_schema'
 
     def __init__(self):

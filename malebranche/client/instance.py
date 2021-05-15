@@ -1,3 +1,12 @@
+import contextvars
+from contextlib import contextmanager
+
+from .parsers import LoggerParser
+
+_EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log", default=None)
+_EXECUTION_TRACER_CONTEXT = contextvars.ContextVar("malebranche.tracer", default=None)
+
+
 class Malebranche(object):
     __slots__ = "_host", "_port", "_service_name"
 
@@ -5,10 +14,16 @@ class Malebranche(object):
         self._host = host
         self._port = port
         self._service_name = service_name
-        
-    def __enter__(self):
-        self._file = open(self._file_name, self._file_mode)
-        return self._file
 
-    def __exit__(self, exc_type, exc_value, exc_traceback):
-        self._file.close()
+    @contextmanager
+    def logger(self, level="INFO"):
+        log = LoggerParser(level)
+        yield log
+        log.send()
+
+    @contextmanager
+    def tracer(self):
+        ...
+
+    def system(self):
+        ...
