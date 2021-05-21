@@ -71,7 +71,7 @@ reformat: ## check code coverage quickly with the default Python
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/minos_microservice_saga.rst
 	rm -f docs/modules.rst
-	poetry run sphinx-apidoc -o docs/api minos
+	poetry run sphinx-apidoc -o docs/api malebranche
 	poetry run $(MAKE) -C docs clean
 	poetry run $(MAKE) -C docs html
 
