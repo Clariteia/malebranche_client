@@ -1,2 +1,6 @@
-from .system import SystemParser
-from .logger import LoggerParser
+from .logger import (
+    LoggerParser,
+)
+from .system import (
+    SystemParser,
+)

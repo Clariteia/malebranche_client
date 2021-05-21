@@ -1,11 +1,18 @@
 import contextvars
-from contextlib import contextmanager
+from contextlib import (
+    contextmanager,
+)
 
-from malebranche.client.manager import ContextManager
-from malebranche.client.parsers import LoggerParser
+from malebranche.client.manager import (
+    ContextManager,
+)
+from malebranche.client.parsers import (
+    LoggerParser,
+)
 
 _EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log")
 _EXECUTION_TRACER_CONTEXT = contextvars.ContextVar("malebranche.tracer", default=None)
+
 
 @contextmanager
 def get_logger():
@@ -17,12 +24,11 @@ def get_logger():
     except LookupError:
         is_root = True
         context: ContextManager = ContextManager()
-        token = _EXECUTION_LOG_CONTEXT.set(
-            context
-        )
+        token = _EXECUTION_LOG_CONTEXT.set(context)
     try:
         yield LoggerParser(context=context)
     finally:
         if is_root:
             _EXECUTION_LOG_CONTEXT.reset(token)
-
+        else:
+            context.remove_child()

@@ -1,1 +1,2 @@
-class MessageFormatNotValid(Exception): pass
+class MessageFormatNotValid(Exception):
+    pass

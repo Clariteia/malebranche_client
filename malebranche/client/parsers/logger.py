@@ -1,6 +1,11 @@
 import typing as t
-from datetime import datetime
-from malebranche.client.parsers.abc import ParserAbstract
+from datetime import (
+    datetime,
+)
+
+from malebranche.client.parsers.abc import (
+    ParserAbstract,
+)
 
 
 class LoggerParser(ParserAbstract):
@@ -20,5 +25,3 @@ class LoggerParser(ParserAbstract):
 
     def error(self, message: t.Union[str, int, float, dict, list]):
         self.add_to_stack(date=datetime.now().timestamp(), body=message, level="ERROR")
-
-

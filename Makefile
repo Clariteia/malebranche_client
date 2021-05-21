@@ -60,13 +60,13 @@ test-all: ## run tests on every Python version with tox
 	poetry run tox
 
 coverage: ## check code coverage quickly with the default Python
-	poetry run coverage run --source minos -m pytest
+	poetry run coverage run --source malebranche -m pytest
 	poetry run coverage report -m
 	poetry run coverage xml
 
 reformat: ## check code coverage quickly with the default Python
-	poetry run black --line-length 120 minos tests
-	poetry run isort --recursive minos tests
+	poetry run black --line-length 120 malebranche tests
+	poetry run isort --recursive malebranche tests
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/minos_microservice_saga.rst

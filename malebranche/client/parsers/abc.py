@@ -1,10 +1,13 @@
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
 
 
 class ParserAbstract(ABC):
     __slots__ = "_type", "_stack", "_context"
 
-    def __init__(self, context: "ContextManager", **kwargs):
+    def __init__(self, context, **kwargs):
         self._set_type()
         self._set_kwargs(kwargs)
         self._stack = []
@@ -16,7 +19,7 @@ class ParserAbstract(ABC):
 
     @abstractmethod
     def _set_type(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def _set_kwargs(self, kwargs):
         pass
@@ -28,8 +31,12 @@ class ParserAbstract(ABC):
         :return:
         """
         data = {}
-        data['type'] = self._type
+        data["type"] = self._type
         for key, value in kwargs.items():
             data[key] = value
-        self._stack.append(data)
         self._context.add(data)
+        process = self._context.process
+        data["process"] = process["process"]
+        if "parent" in process:
+            data["parent"] = process["parent"]
+        self._stack.append(data)
