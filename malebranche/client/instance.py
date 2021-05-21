@@ -1,33 +1,28 @@
 import contextvars
 from contextlib import contextmanager
 
-from .parsers import LoggerParser
+from malebranche.client.manager import ContextManager
+from malebranche.client.parsers import LoggerParser
 
-_EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log", default=None)
+_EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log")
 _EXECUTION_TRACER_CONTEXT = contextvars.ContextVar("malebranche.tracer", default=None)
 
+@contextmanager
+def get_logger():
+    try:
+        context: ContextManager = _EXECUTION_LOG_CONTEXT.get()
+        context.add_child_process()
+        _EXECUTION_LOG_CONTEXT.set(context)
+        is_root = False
+    except LookupError:
+        is_root = True
+        context: ContextManager = ContextManager()
+        token = _EXECUTION_LOG_CONTEXT.set(
+            context
+        )
+    try:
+        yield LoggerParser(context=context)
+    finally:
+        if is_root:
+            _EXECUTION_LOG_CONTEXT.reset(token)
 
-class Malebranche(object):
-    __slots__ = "_host", "_port", "_service_name"
-
-    def __init__(self, service_name: str, host: str, port: int):
-        self._host = host
-        self._port = port
-        self._service_name = service_name
-
-    @contextmanager
-    def logger(self, level="INFO"):
-        context = _EXECUTION_LOG_CONTEXT.get()
-        if context is not None:
-            log = LoggerParser(level, parent=context)
-        else:
-            log = LoggerParser(level)
-        yield log
-        log.send()
-
-    @contextmanager
-    def tracer(self):
-        ...
-
-    def system(self):
-        ...

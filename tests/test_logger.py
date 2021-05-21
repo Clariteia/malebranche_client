@@ -1,11 +1,39 @@
-from malebranche.client import Malebranche
+from malebranche.client.instance import get_logger
 
 
-def test_logger():
-    logger_instance = Malebranche("TestMicroservice", "localhost", 9343)
-
-    with logger_instance.logger("INFO") as log:
+def test_logger_string_message():
+    with get_logger() as log:
         log.info("Testing")
-        stack = log.stack
-        assert stack[0]['level'] == "INFO"
-        assert stack[0]['message'] == "Testing"
+        list_messages = log.stack
+        assert list_messages[0]['body'] == "Testing"
+
+
+def test_logger_int_message():
+    with get_logger() as log:
+        log.info(12)
+        list_messages = log.stack
+        assert list_messages[0]['body'] == 12
+
+
+def test_logger_dict_message():
+    with get_logger() as log:
+        log.info({"name": "malebranche"})
+        list_messages = log.stack
+        assert list_messages[0]['body']["name"] == "malebranche"
+
+
+def test_logger_list_message():
+    with get_logger() as log:
+        log.info(["malebranche"])
+        list_messages = log.stack
+    assert list_messages[0]['body'][0] == "malebranche"
+
+def test_multi_logger_context():
+    with get_logger() as log:
+        log.info("Test: first process")
+        with get_logger() as sub_log:
+            sub_log.warning("Test: Waring sub process")
+            with get_logger() as sub_sub_log:
+                sub_sub_log.debug("Test: Debug sub sub process")
+
+    assert False == True

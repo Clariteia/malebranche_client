@@ -2,11 +2,13 @@ from collections import namedtuple
 import psutil
 from fastavro import parse_schema
 
+from malebranche.client.parsers.abc import ParserAbstract
+
 CPU = namedtuple('CPU', ['num', 'percentage'])
 RAM = namedtuple('RAM', ['total', 'available', 'used', 'free', 'percent'])
 
 
-class SystemParser(object):
+class SystemParser(ParserAbstract):
     __slots__ = '_schema'
 
     def __init__(self):
