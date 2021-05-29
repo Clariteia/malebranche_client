@@ -1,13 +1,17 @@
 import contextvars
+import logging
 from contextlib import (
     contextmanager,
 )
+from logging.handlers import (
+    HTTPHandler,
+)
 
-from malebranche.client.manager import (
+from malebranche.client.context import (
     ContextManager,
 )
-from malebranche.client.parsers import (
-    LoggerParser,
+from malebranche.client.parsers.logger import (
+    MalebrancheLogFilter,
 )
 
 _EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log")
@@ -15,7 +19,8 @@ _EXECUTION_TRACER_CONTEXT = contextvars.ContextVar("malebranche.tracer", default
 
 
 @contextmanager
-def get_logger():
+def get_logger(level=logging.DEBUG):
+
     try:
         context: ContextManager = _EXECUTION_LOG_CONTEXT.get()
         context.add_child_process()
@@ -25,10 +30,24 @@ def get_logger():
         is_root = True
         context: ContextManager = ContextManager()
         token = _EXECUTION_LOG_CONTEXT.set(context)
+
+    logging.basicConfig()
+    logger = logging.getLogger(__name__)
+    if logger.hasHandlers():
+        logger.handlers.clear()
+        logger.filters.clear()
+
+    network_handler = HTTPHandler(host="localhost:5000", url="/log", method="POST")
+    logger.addHandler(network_handler)
+    old_level = logger.getEffectiveLevel()
+    logger.addFilter(MalebrancheLogFilter(context=context))
+    logger.setLevel(level)
+    logger.propagate = True
     try:
-        yield LoggerParser(context=context)
+        yield logger
     finally:
         if is_root:
             _EXECUTION_LOG_CONTEXT.reset(token)
         else:
             context.remove_child()
+        logger.setLevel(old_level)

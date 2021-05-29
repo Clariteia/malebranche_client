@@ -7,15 +7,11 @@ from fastavro import (
     parse_schema,
 )
 
-from malebranche.client.parsers.abc import (
-    ParserAbstract,
-)
-
 CPU = namedtuple("CPU", ["num", "percentage"])
 RAM = namedtuple("RAM", ["total", "available", "used", "free", "percent"])
 
 
-class SystemParser(ParserAbstract):
+class SystemParser(object):
     __slots__ = "_schema"
 
     def __init__(self):

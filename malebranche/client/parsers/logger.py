@@ -1,27 +1,15 @@
-import typing as t
-from datetime import (
-    datetime,
-)
-
-from malebranche.client.parsers.abc import (
-    ParserAbstract,
-)
+import logging
 
 
-class LoggerParser(ParserAbstract):
-    __slots__ = "_level"
+class MalebrancheLogFilter(logging.Filter):
+    __slots__ = "_context"
 
-    def _set_type(self):
-        self._type = "LOG"
+    def __init__(self, context: dict):
+        logging.Filter.__init__(self)
+        self._context = context
 
-    def info(self, message: t.Union[str, int, float, dict, list]):
-        self.add_to_stack(date=datetime.now().timestamp(), body=message, level="INFO")
-
-    def warning(self, message: t.Union[str, int, float, dict, list]):
-        self.add_to_stack(date=datetime.now().timestamp(), body=message, level="WARN")
-
-    def debug(self, message: t.Union[str, int, float, dict, list]):
-        self.add_to_stack(date=datetime.now().timestamp(), body=message, level="DEBUG")
-
-    def error(self, message: t.Union[str, int, float, dict, list]):
-        self.add_to_stack(date=datetime.now().timestamp(), body=message, level="ERROR")
+    def filter(self, record: logging.LogRecord) -> bool:
+        record.process = self._context.process["process"]
+        if self._context.process["parent"] is not None:
+            record.parent = self._context.process["parent"]
+        return True
