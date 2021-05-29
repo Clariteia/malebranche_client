@@ -28,8 +28,5 @@ jobs:
                     files: ./coverage.xml
                     fail_ci_if_error: true
 
-            -   name: Generate documentation
-                run: make docs
-
             -   name: Generate build
                 run: make dist
