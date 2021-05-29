@@ -1,39 +1,31 @@
+import httpretty
+
 from malebranche.client.instance import (
     get_logger,
 )
 
-# def test_logger_string_message():
-#     with get_logger() as log:
-#         log.info("Testing")
 
+@httpretty.activate
+def test_logger_multi_context():
+    message = {}
 
-# def test_logger_int_message():
-#     with get_logger() as log:
-#         log.info(12)
-#         list_messages = log.stack
-#         assert list_messages[0]["body"] == 12
-#
-#
-# def test_logger_dict_message():
-#     with get_logger() as log:
-#         log.info({"name": "malebranche"})
-#         list_messages = log.stack
-#         assert list_messages[0]["body"]["name"] == "malebranche"
-#
-#
-# def test_logger_list_message():
-#     with get_logger() as log:
-#         log.info(["malebranche"])
-#         list_messages = log.stack
-#     assert list_messages[0]["body"][0] == "malebranche"
-#
-#
-def test_multi_logger_context():
+    def request_callback_response(request, uri, response_headers):
+        request_dict = request.parsed_body
+        message[request_dict["msg"][0]] = {}
+        message[request_dict["msg"][0]]["process"] = request_dict["process"][0]
+        if "parent" in request_dict:
+            message[request_dict["msg"][0]]["parent"] = request_dict["parent"][0]
+        if request_dict["msg"][0] == "Second":
+            assert message["First"]["process"] == request_dict["parent"][0]
+        return [200, response_headers, ""]
+
+    httpretty.register_uri(httpretty.POST, "http://localhost:5000/log", body=request_callback_response)
+
     with get_logger() as log:
-        log.info("Test: first process")
+        log.info("First")
         with get_logger() as sub_log:
-            sub_log.warning("Test: Warning sub process")
+            sub_log.warning("Second")
             with get_logger() as sub_sub_log:
-                sub_sub_log.debug("Test: Debug sub sub process")
-            sub_log.info("Test: Info sub process after")
-        log.debug("Test: Debug process message")
+                sub_sub_log.debug("Third")
+            sub_log.info("Sub-Second")
+        log.debug("Sub-First")

@@ -10,6 +10,9 @@ from logging.handlers import (
 from malebranche.client.context import (
     ContextManager,
 )
+from malebranche.client.parsers import (
+    SystemParser,
+)
 from malebranche.client.parsers.logger import (
     MalebrancheLogFilter,
 )
@@ -51,3 +54,12 @@ def get_logger(level=logging.DEBUG):
         else:
             context.remove_child()
         logger.setLevel(old_level)
+
+
+@contextmanager
+def get_system(host="localhost:5000", url="/system"):
+    system = SystemParser(host="localhost:5000", url="/system")
+    try:
+        yield system
+    finally:
+        system.emit()
