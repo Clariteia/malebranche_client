@@ -1,7 +1,9 @@
-import contextvars
 import logging
 from contextlib import (
     contextmanager,
+)
+from contextvars import (
+    ContextVar,
 )
 from logging.handlers import (
     HTTPHandler,
@@ -17,8 +19,8 @@ from malebranche.client.parsers.logger import (
     MalebrancheLogFilter,
 )
 
-_EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log")
-_EXECUTION_TRACER_CONTEXT = contextvars.ContextVar("malebranche.tracer", default=None)
+_EXECUTION_LOG_CONTEXT = ContextVar("malebranche.log")
+_EXECUTION_TRACER_CONTEXT = ContextVar("malebranche.tracer", default=None)
 
 
 @contextmanager
