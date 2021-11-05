@@ -16,14 +16,16 @@ from malebranche.client.parsers import (
 from malebranche.client.parsers.logger import (
     MalebrancheLogFilter,
 )
+from malebranche.client.span import (
+    Span,
+)
 
 _EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log")
 _EXECUTION_TRACER_CONTEXT = contextvars.ContextVar("malebranche.tracer", default=None)
 
 
 @contextmanager
-def get_logger(level=logging.DEBUG):
-
+def start_span(level=logging.DEBUG):
     try:
         context: ContextManager = _EXECUTION_LOG_CONTEXT.get()
         context.add_child_process()
@@ -47,7 +49,7 @@ def get_logger(level=logging.DEBUG):
     logger.setLevel(level)
     logger.propagate = True
     try:
-        yield logger
+        yield Span(logger)
     finally:
         if is_root:
             _EXECUTION_LOG_CONTEXT.reset(token)
