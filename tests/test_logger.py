@@ -29,3 +29,10 @@ def test_logger_multi_context():
                 sub_sub_log.debug("Third")
             sub_log.info("Sub-Second")
         log.debug("Sub-First")
+
+
+def test_logger():
+    with get_logger() as log:
+        log.info("First")
+        with get_logger() as sub_log:
+            sub_log.warning("Second")

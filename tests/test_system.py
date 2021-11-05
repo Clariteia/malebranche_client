@@ -12,15 +12,15 @@ from malebranche.client.parsers import (
 def test_system_values():
     stack = {}
 
-    def request_system_callback_response(request, uri, response_headers):
-        request_dict = request.parsed_body
-        assert request_dict["cpu_total"][0] == stack["cpu_total"], "Unexpected result"
-        assert True == False, "the result is False and not True"
-        return [200, response_headers, ""]
+    # def request_system_callback_response(request, uri, response_headers):
+    #     request_dict = request.parsed_body
+    #     assert request_dict["cpu_total"][0] == stack["cpu_total"], "Unexpected result"
+    #     assert True == False, "the result is False and not True"
+    #     return [200, response_headers, ""]
+    #
+    # httpretty.register_uri(httpretty.POST, "http://localhost:5000/system", body=request_system_callback_response)
 
-    httpretty.register_uri(httpretty.POST, "http://localhost:5000/system", body=request_system_callback_response)
-
-    system = SystemParser(host="localhost:5000", url="/system")
+    system = SystemParser(host="localhost:5000", url="/logs")
     stack = system.updateStack()
     system.emit()
 
