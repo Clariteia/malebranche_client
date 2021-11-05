@@ -19,7 +19,7 @@ def test_logger_multi_context():
             assert message["First"]["process"] == request_dict["parent"][0]
         return [200, response_headers, ""]
 
-    httpretty.register_uri(httpretty.POST, "http://localhost:5000/log", body=request_callback_response)
+    httpretty.register_uri(httpretty.POST, "http://localhost:5000/logs", body=request_callback_response)
 
     with get_logger() as log:
         log.info("First")
