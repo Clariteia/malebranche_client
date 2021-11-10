@@ -29,3 +29,8 @@ def test_logger_multi_context():
                 sub_sub_span.logger.debug("Third")
             sub_span.logger.info("Sub-Second")
         span.logger.debug("Sub-First")
+
+
+def test_simple():
+    with start_span() as span:
+        span.logger.info("Hello, world!")
