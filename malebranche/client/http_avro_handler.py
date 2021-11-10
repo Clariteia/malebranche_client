@@ -1,36 +1,44 @@
-from io import BytesIO
-from logging import LogRecord
-from logging.handlers import HTTPHandler
+from io import (
+    BytesIO,
+)
+from logging import (
+    LogRecord,
+)
+from logging.handlers import (
+    HTTPHandler,
+)
 
-from fastavro import writer
+from fastavro import (
+    writer,
+)
 
 schema = {
-    'name': 'log_schema',
-    'type': 'record',
-    'fields': [
-        {'name': 'message', 'type': 'string', 'default': "Default"},
-        {'name': 'name', 'type': 'string'},
-        {'name': 'msg', 'type': 'string'},
-        {'name': 'name', 'type': 'string'},
-        {'name': 'args', 'type': {'type': 'array', 'items': "string"}},
-        {'name': 'levelname', 'type': 'string'},
-        {'name': 'levelno', 'type': 'int'},
-        {'name': 'pathname', 'type': 'string'},
-        {'name': 'filename', 'type': 'string'},
-        {'name': 'module', 'type': 'string'},
-        {'name': 'exc_info', 'type': 'null'},
-        {'name': 'exc_text', 'type': 'null'},
-        {'name': 'stack_info', 'type': 'null'},
-        {'name': 'lineno', 'type': 'int'},
-        {'name': 'funcName', 'type': 'string'},
-        {'name': 'created', 'type': 'float'},
-        {'name': 'msecs', 'type': 'float'},
-        {'name': 'relativeCreated', 'type': 'float'},
-        {'name': 'thread', 'type': 'int'},
-        {'name': 'threadName', 'type': 'string'},
-        {'name': 'processName', 'type': 'string'},
-        {'name': 'process', 'type': 'string'},
-        {'name': 'parent', 'type': 'string', 'default': 'DEFAULT-PARENT'},
+    "name": "log_schema",
+    "type": "record",
+    "fields": [
+        {"name": "message", "type": "string", "default": "Default"},
+        {"name": "name", "type": "string"},
+        {"name": "msg", "type": "string"},
+        {"name": "name", "type": "string"},
+        {"name": "args", "type": {"type": "array", "items": "string"}},
+        {"name": "levelname", "type": "string"},
+        {"name": "levelno", "type": "int"},
+        {"name": "pathname", "type": "string"},
+        {"name": "filename", "type": "string"},
+        {"name": "module", "type": "string"},
+        {"name": "exc_info", "type": "null"},
+        {"name": "exc_text", "type": "null"},
+        {"name": "stack_info", "type": "null"},
+        {"name": "lineno", "type": "int"},
+        {"name": "funcName", "type": "string"},
+        {"name": "created", "type": "float"},
+        {"name": "msecs", "type": "float"},
+        {"name": "relativeCreated", "type": "float"},
+        {"name": "thread", "type": "int"},
+        {"name": "threadName", "type": "string"},
+        {"name": "processName", "type": "string"},
+        {"name": "process", "type": "string"},
+        {"name": "parent", "type": "string", "default": "DEFAULT-PARENT"},
     ],
 }
 

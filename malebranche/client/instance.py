@@ -10,7 +10,9 @@ from logging.handlers import (
 from malebranche.client.context import (
     ContextManager,
 )
-from malebranche.client.http_avro_handler import HttpAvroHandler
+from malebranche.client.http_avro_handler import (
+    HttpAvroHandler,
+)
 from malebranche.client.parsers import (
     SystemParser,
 )
