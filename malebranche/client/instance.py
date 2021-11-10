@@ -3,9 +3,6 @@ import logging
 from contextlib import (
     contextmanager,
 )
-from logging.handlers import (
-    HTTPHandler,
-)
 
 from malebranche.client.context import (
     ContextManager,

@@ -3,9 +3,6 @@ import logging
 from malebranche.client.context import (
     ContextManager,
 )
-from malebranche.client.parsers import (
-    SystemParser,
-)
 
 
 class MalebrancheLogFilter(logging.Filter):

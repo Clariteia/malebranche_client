@@ -49,8 +49,6 @@ class HttpAvroHandler(HTTPHandler):
 
     def emit(self, record: LogRecord) -> None:
         try:
-            import urllib.parse
-
             host = self.host
             h = self.getConnection(host, self.secure)
             url = self.url
