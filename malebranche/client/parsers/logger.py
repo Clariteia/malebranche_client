@@ -3,9 +3,6 @@ from logging import (
     LogRecord,
 )
 
-from malebranche.client.context import (
-    ContextManager,
-)
 from malebranche.client.parsers import (
     SystemParser,
 )
