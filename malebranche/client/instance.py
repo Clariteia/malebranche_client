@@ -42,7 +42,7 @@ def get_logger(level=logging.DEBUG):
         logger.handlers.clear()
         logger.filters.clear()
 
-    network_handler = HTTPHandler(host="localhost:5000", url="/log", method="POST")
+    network_handler = HTTPHandler(host="localhost:5000", url="/logs", method="POST")
     logger.addHandler(network_handler)
     old_level = logger.getEffectiveLevel()
     logger.addFilter(MalebrancheLogFilter(context=context))
@@ -59,7 +59,7 @@ def get_logger(level=logging.DEBUG):
 
 
 @contextmanager
-def get_system(host="localhost:5000", url="/system"):
+def get_system(host="localhost:8082", url="/system"):
     system = SystemParser(host="localhost:5000", url="/system")
     try:
         yield system
