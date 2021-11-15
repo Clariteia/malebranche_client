@@ -1,7 +1,10 @@
-import abc
+from abc import (
+    ABC,
+    abstractmethod,
+)
 
 
-class HttpStreamParser(abc.ABC):
+class HttpStreamParser(ABC):
     __slots__ = "host", "url", "method", "stack"
 
     def __init__(self, host, url, method="POST"):
@@ -27,7 +30,7 @@ class HttpStreamParser(abc.ABC):
         connection = http.client.HTTPConnection(host)
         return connection
 
-    @abc.abstractmethod
+    @abstractmethod
     def updateStack(self):
         raise NotImplementedError
 
