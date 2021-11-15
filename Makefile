@@ -89,3 +89,9 @@ install:
 	poetry install
 
 full-install: clean install
+
+precommit:
+	pre-commit install --hook-type pre-push
+
+unprecommit:
+	pre-commit uninstall

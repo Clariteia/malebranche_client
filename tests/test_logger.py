@@ -1,7 +1,7 @@
 import httpretty
 
 from malebranche.client.instance import (
-    get_logger,
+    start_span,
 )
 
 
@@ -21,11 +21,16 @@ def test_logger_multi_context():
 
     httpretty.register_uri(httpretty.POST, "http://localhost:5000/logs", body=request_callback_response)
 
-    with get_logger() as log:
-        log.info("First")
-        with get_logger() as sub_log:
-            sub_log.warning("Second")
-            with get_logger() as sub_sub_log:
-                sub_sub_log.debug("Third")
-            sub_log.info("Sub-Second")
-        log.debug("Sub-First")
+    with start_span() as span:
+        span.logger.info("First")
+        with start_span() as sub_span:
+            sub_span.logger.warning("Second")
+            with start_span() as sub_sub_span:
+                sub_sub_span.logger.debug("Third")
+            sub_span.logger.info("Sub-Second")
+        span.logger.debug("Sub-First")
+
+
+def test_simple():
+    with start_span() as span:
+        span.logger.info("Hello, world!")
