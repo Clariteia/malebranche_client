@@ -3,12 +3,12 @@ import logging
 from contextlib import (
     contextmanager,
 )
-from logging.handlers import (
-    HTTPHandler,
-)
 
 from malebranche.client.context import (
     ContextManager,
+)
+from malebranche.client.http_avro_handler import (
+    HttpAvroHandler,
 )
 from malebranche.client.parsers import (
     SystemParser,
@@ -42,7 +42,7 @@ def start_span(level=logging.DEBUG):
         logger.handlers.clear()
         logger.filters.clear()
 
-    network_handler = HTTPHandler(host="localhost:5000", url="/logs", method="POST")
+    network_handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST")
     logger.addHandler(network_handler)
     old_level = logger.getEffectiveLevel()
     logger.addFilter(MalebrancheLogFilter(context=context))
