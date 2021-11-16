@@ -1,26 +1,22 @@
-import logging
-
-from malebranche.client.context import (
-    ContextManager,
-)
-from malebranche.client.parsers import (
-    SystemParser,
+from logging import (
+    Filter,
+    LogRecord,
 )
 
 
-class MalebrancheLogFilter(logging.Filter):
+class MalebrancheLogFilter(Filter):
     __slots__ = "_context"
 
-    def __init__(self, context: ContextManager):
-        logging.Filter.__init__(self)
+    def __init__(self, context: dict):
+        Filter.__init__(self)
         self._context = context
 
-    def filter(self, record: logging.LogRecord) -> bool:
+    def filter(self, record: LogRecord) -> bool:
         record.process = self._context.process["process"]
         if self._context.process["parent"] is not None:
             record.parent = self._context.process["parent"]
 
-        sys = SystemParser(host="localhost:5000", url="/logs").updateStack()
-        record.sys = sys
+        # sys = SystemParser(host="localhost:5000", url="/logs").updateStack()
+        # record.sys = sys
 
         return True

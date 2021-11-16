@@ -1,14 +1,16 @@
-import contextvars
 import logging
 from contextlib import (
     contextmanager,
 )
-from logging.handlers import (
-    HTTPHandler,
+from contextvars import (
+    ContextVar,
 )
 
 from malebranche.client.context import (
     ContextManager,
+)
+from malebranche.client.http_avro_handler import (
+    HttpAvroHandler,
 )
 from malebranche.client.parsers import (
     SystemParser,
@@ -16,14 +18,16 @@ from malebranche.client.parsers import (
 from malebranche.client.parsers.logger import (
     MalebrancheLogFilter,
 )
+from malebranche.client.span import (
+    Span,
+)
 
-_EXECUTION_LOG_CONTEXT = contextvars.ContextVar("malebranche.log")
-_EXECUTION_TRACER_CONTEXT = contextvars.ContextVar("malebranche.tracer", default=None)
+_EXECUTION_LOG_CONTEXT = ContextVar("malebranche.log")
+_EXECUTION_TRACER_CONTEXT = ContextVar("malebranche.tracer", default=None)
 
 
 @contextmanager
-def get_logger(level=logging.DEBUG):
-
+def start_span(level=logging.DEBUG):
     try:
         context: ContextManager = _EXECUTION_LOG_CONTEXT.get()
         context.add_child_process()
@@ -40,14 +44,14 @@ def get_logger(level=logging.DEBUG):
         logger.handlers.clear()
         logger.filters.clear()
 
-    network_handler = HTTPHandler(host="localhost:5000", url="/logs", method="POST")
+    network_handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST")
     logger.addHandler(network_handler)
     old_level = logger.getEffectiveLevel()
     logger.addFilter(MalebrancheLogFilter(context=context))
     logger.setLevel(level)
     logger.propagate = True
     try:
-        yield logger
+        yield Span(logger)
     finally:
         if is_root:
             _EXECUTION_LOG_CONTEXT.reset(token)
