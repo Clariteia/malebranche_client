@@ -1,8 +1,14 @@
 import unittest
-from logging import INFO
+from logging import (
+    INFO,
+)
 
-from malebranche.client.context import ContextManager
-from malebranche.client import Logger
+from malebranche.client import (
+    Logger,
+)
+from malebranche.client.context import (
+    ContextManager,
+)
 
 
 class TestLogger(unittest.TestCase):
@@ -17,5 +23,5 @@ class TestLogger(unittest.TestCase):
             self.logger.info("Test message")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

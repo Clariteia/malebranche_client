@@ -1,11 +1,22 @@
-from __future__ import annotations
+from __future__ import (
+    annotations,
+)
 
 import logging
-from logging import Handler
+from logging import (
+    Handler,
+)
 
-from malebranche.client.context import ContextManager
-from .filter import MalebrancheLogFilter
-from .http_avro_handler import HttpAvroHandler
+from malebranche.client.context import (
+    ContextManager,
+)
+
+from .filter import (
+    MalebrancheLogFilter,
+)
+from .http_avro_handler import (
+    HttpAvroHandler,
+)
 
 
 class Logger:
@@ -14,7 +25,7 @@ class Logger:
         module: str,
         context: ContextManager,
         level=logging.DEBUG,
-        handler: Handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST")
+        handler: Handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST"),
     ):
         self.logger: logging.Logger = self._create_logger(module, context, level, handler)
 
@@ -23,7 +34,7 @@ class Logger:
         module: str,
         context,
         level=logging.DEBUG,
-        handler: Handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST")
+        handler: Handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST"),
     ) -> logging.Logger:
         logging.basicConfig()
         logger = logging.getLogger(module)
@@ -33,7 +44,7 @@ class Logger:
 
         network_handler = handler
         logger.addHandler(network_handler)
-        old_level = logger.getEffectiveLevel()
+        # old_level = logger.getEffectiveLevel()
         logger.addFilter(MalebrancheLogFilter(context=context))
         logger.setLevel(level)
         logger.propagate = True
