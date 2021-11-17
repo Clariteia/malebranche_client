@@ -24,11 +24,11 @@ def test_logger_multi_context():
     with start_span() as span:
         span.logger.info("First")
         with start_span() as sub_span:
-            sub_span.logger.warning("Second")
+            sub_span.logger.info("Second")
             with start_span() as sub_sub_span:
-                sub_sub_span.logger.debug("Third")
+                sub_sub_span.logger.info("Third")
             sub_span.logger.info("Sub-Second")
-        span.logger.debug("Sub-First")
+        span.logger.info("Sub-First")
 
 
 def test_simple():
