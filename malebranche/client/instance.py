@@ -9,14 +9,9 @@ from contextvars import (
 from malebranche.client.context import (
     ContextManager,
 )
-from malebranche.client.http_avro_handler import (
-    HttpAvroHandler,
-)
+from malebranche.client.logger.logger import Logger
 from malebranche.client.parsers import (
     SystemParser,
-)
-from malebranche.client.parsers.logger import (
-    MalebrancheLogFilter,
 )
 from malebranche.client.span import (
     Span,
@@ -37,27 +32,15 @@ def start_span(level=logging.DEBUG):
         is_root = True
         context: ContextManager = ContextManager()
         token = _EXECUTION_LOG_CONTEXT.set(context)
-
-    logging.basicConfig()
-    logger = logging.getLogger(__name__)
-    if logger.hasHandlers():
-        logger.handlers.clear()
-        logger.filters.clear()
-
-    network_handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST")
-    logger.addHandler(network_handler)
-    old_level = logger.getEffectiveLevel()
-    logger.addFilter(MalebrancheLogFilter(context=context))
-    logger.setLevel(level)
-    logger.propagate = True
     try:
-        yield Span(logger)
+        logger = Logger(__name__, context, level)
+        yield Span(logger.logger)
     finally:
         if is_root:
             _EXECUTION_LOG_CONTEXT.reset(token)
         else:
             context.remove_child()
-        logger.setLevel(old_level)
+        # logger.setLevel(old_level)
 
 
 @contextmanager
