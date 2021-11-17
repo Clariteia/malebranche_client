@@ -3,17 +3,17 @@ from __future__ import annotations
 import logging
 
 from malebranche.client.context import ContextManager
-from malebranche.client.logger.filter import MalebrancheLogFilter
-from malebranche.client.logger.http_avro_handler import HttpAvroHandler
+from .filter import MalebrancheLogFilter
+from .http_avro_handler import HttpAvroHandler
 
 
 class Logger:
     def __init__(self, module: str, context: ContextManager, level=logging.DEBUG):
-        self.logger: logging.Logger = self.create(module, context, level)
+        self.logger: logging.Logger = self._create_logger(module, context, level)
 
-    def create(self, module: str, context, level=logging.DEBUG) -> logging.Logger:
+    def _create_logger(self, module: str, context, level=logging.DEBUG) -> logging.Logger:
         logging.basicConfig()
-        logger = logging.getLogger(__name__)
+        logger = logging.getLogger(module)
         if logger.hasHandlers():
             logger.handlers.clear()
             logger.filters.clear()
@@ -26,3 +26,6 @@ class Logger:
         logger.propagate = True
 
         return logger
+
+    def info(self, msg: str) -> None:
+        self.logger.info(msg)
