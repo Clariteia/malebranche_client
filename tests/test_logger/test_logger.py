@@ -2,17 +2,19 @@ import unittest
 from logging import INFO
 
 from malebranche.client.context import ContextManager
-from malebranche.client.logger.logger import Logger
+from malebranche.client import Logger
 
 
 class TestLogger(unittest.TestCase):
+    TEST_MODULE = "test_module"
+
     def setUp(self) -> None:
         context = ContextManager()
-        self.logger = Logger(__name__, context)
+        self.logger = Logger(self.TEST_MODULE, context)
 
     def test_info(self):
-        with self.assertLogs(__name__, level=INFO):
-            self.logger.info("test message")
+        with self.assertLogs(self.TEST_MODULE, level=INFO):
+            self.logger.info("Test message")
 
 
 if __name__ == '__main__':
