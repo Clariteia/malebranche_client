@@ -30,12 +30,7 @@ class Logger:
         self.logger: logging.Logger = Logger._create_logger(module, context, level, handler)
 
     @staticmethod
-    def _create_logger(
-        module: str,
-        context,
-        level=logging.DEBUG,
-        handler: Handler = None,
-    ) -> logging.Logger:
+    def _create_logger(module: str, context, level=logging.DEBUG, handler: Handler = None,) -> logging.Logger:
         logging.basicConfig()
         logger = logging.getLogger(module)
         if logger.hasHandlers():
