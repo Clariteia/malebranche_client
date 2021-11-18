@@ -9,9 +9,6 @@ from contextvars import (
 from malebranche.client.context import (
     ContextManager,
 )
-from malebranche.client.logger.logger import (
-    Logger,
-)
 from malebranche.client.parsers import (
     SystemParser,
 )

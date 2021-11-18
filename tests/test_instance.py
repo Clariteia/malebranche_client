@@ -3,7 +3,9 @@ import httpretty
 from malebranche.client import (
     Span,
 )
-from malebranche.client.instance import start_span
+from malebranche.client.instance import (
+    start_span,
+)
 
 
 @httpretty.activate
