@@ -1,8 +1,13 @@
-import logging
-from contextvars import ContextVar
+from contextvars import (
+    ContextVar,
+)
 
-from .logger import Logger
-from .context import ContextManager
+from .context import (
+    ContextManager,
+)
+from .logger import (
+    Logger,
+)
 
 SPANS_TREE = ContextVar("malebranche.spans")
 
