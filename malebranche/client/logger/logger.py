@@ -34,13 +34,16 @@ class Logger:
         module: str,
         context,
         level=logging.DEBUG,
-        handler: Handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST"),
+        handler: Handler = None,
     ) -> logging.Logger:
         logging.basicConfig()
         logger = logging.getLogger(module)
         if logger.hasHandlers():
             logger.handlers.clear()
             logger.filters.clear()
+
+        if handler is None:
+            handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST")
 
         network_handler = handler
         logger.addHandler(network_handler)
