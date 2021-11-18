@@ -27,10 +27,10 @@ class Logger:
         level=logging.DEBUG,
         handler: Handler = HttpAvroHandler(host="localhost:5000", url="/logs", method="POST"),
     ):
-        self.logger: logging.Logger = self._create_logger(module, context, level, handler)
+        self.logger: logging.Logger = Logger._create_logger(module, context, level, handler)
 
+    @staticmethod
     def _create_logger(
-        self,
         module: str,
         context,
         level=logging.DEBUG,
