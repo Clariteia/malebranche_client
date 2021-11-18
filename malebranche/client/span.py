@@ -11,23 +11,25 @@ class Span:
     def __init__(self, logger):
         self.logger = logger
         self.is_root = False
+        self.token = None
+        self.context = None
 
     def __enter__(self):
         try:
             context: ContextManager = SPANS_TREE.get()
         except LookupError:
             self.is_root = True
-            context: ContextManager = ContextManager()
-            token = SPANS_TREE.set(context)
+            self.context: ContextManager = ContextManager()
+            self.token = SPANS_TREE.set(self.context)
         else:
             context.add_child_process()
             SPANS_TREE.set(context)
 
-        self.logger = Logger(__name__, context, "INFO")
+        self.logger = Logger(__name__, self.context, "INFO")
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.is_root:
-            SPANS_TREE.reset(token)
+            SPANS_TREE.reset(self.token)
         else:
-            context.remove_child()
+            self.context.remove_child()
         # logger.setLevel(old_level)
