@@ -1,22 +1,12 @@
-from __future__ import (
-    annotations,
-)
+from __future__ import annotations
 
 import logging
-from logging import (
-    Handler,
-)
+from logging import Handler
 
-from malebranche.client.context import (
-    ContextManager,
-)
+from malebranche.client.context import ContextManager
 
-from .filter import (
-    MalebrancheLogFilter,
-)
-from .http_avro_handler import (
-    HttpAvroHandler,
-)
+from .filter import MalebrancheLogFilter
+from .http_avro_handler import HttpAvroHandler
 
 
 class Logger:
@@ -30,12 +20,7 @@ class Logger:
         self.logger: logging.Logger = Logger._create_logger(module, context, level, handler)
 
     @staticmethod
-    def _create_logger(
-        module: str,
-        context,
-        level=logging.DEBUG,
-        handler: Handler = None,
-    ) -> logging.Logger:
+    def _create_logger(module: str, context, level=logging.DEBUG, handler: Handler = None,) -> logging.Logger:
         logging.basicConfig()
         logger = logging.getLogger(module)
         if logger.hasHandlers():

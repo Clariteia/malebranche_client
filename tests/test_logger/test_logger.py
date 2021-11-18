@@ -1,14 +1,8 @@
 import unittest
-from logging import (
-    INFO,
-)
+from logging import INFO
 
-from malebranche.client import (
-    Logger,
-)
-from malebranche.client.context import (
-    ContextManager,
-)
+from malebranche.client import Logger
+from malebranche.client.context import ContextManager
 
 
 class TestLogger(unittest.TestCase):

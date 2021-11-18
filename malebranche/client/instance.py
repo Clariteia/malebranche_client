@@ -1,23 +1,11 @@
 import logging
-from contextlib import (
-    contextmanager,
-)
-from contextvars import (
-    ContextVar,
-)
+from contextlib import contextmanager
+from contextvars import ContextVar
 
-from malebranche.client.context import (
-    ContextManager,
-)
-from malebranche.client.logger.logger import (
-    Logger,
-)
-from malebranche.client.parsers import (
-    SystemParser,
-)
-from malebranche.client.span import (
-    Span,
-)
+from malebranche.client.context import ContextManager
+from malebranche.client.logger.logger import Logger
+from malebranche.client.parsers import SystemParser
+from malebranche.client.span import Span
 
 _EXECUTION_LOG_CONTEXT = ContextVar("malebranche.log")
 _EXECUTION_TRACER_CONTEXT = ContextVar("malebranche.tracer", default=None)
