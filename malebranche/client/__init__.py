@@ -6,3 +6,7 @@ from .logger import (
 from .span import (
     Span,
 )
+
+from .context import (
+    ContextManager
+)
