@@ -35,8 +35,7 @@ def start_span(level=logging.DEBUG):
         context: ContextManager = ContextManager()
         token = _EXECUTION_LOG_CONTEXT.set(context)
     try:
-        logger = Logger(__name__, context, level)
-        yield Span(logger)
+        yield Span().__enter__()
     finally:
         if is_root:
             _EXECUTION_LOG_CONTEXT.reset(token)

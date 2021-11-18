@@ -1,8 +1,5 @@
 import httpretty
 
-from malebranche.client.instance import (
-    get_system,
-)
 from malebranche.client.parsers import (
     SystemParser,
 )
