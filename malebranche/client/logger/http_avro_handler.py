@@ -1,8 +1,16 @@
-from io import BytesIO
-from logging import LogRecord
-from logging.handlers import HTTPHandler
+from io import (
+    BytesIO,
+)
+from logging import (
+    LogRecord,
+)
+from logging.handlers import (
+    HTTPHandler,
+)
 
-from fastavro import writer
+from fastavro import (
+    writer,
+)
 
 schema = {
     "name": "log_schema",

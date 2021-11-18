@@ -1,12 +1,22 @@
-from __future__ import annotations
+from __future__ import (
+    annotations,
+)
 
 import logging
-from logging import Handler
+from logging import (
+    Handler,
+)
 
-from malebranche.client.context import ContextManager
+from malebranche.client.context import (
+    ContextManager,
+)
 
-from .filter import MalebrancheLogFilter
-from .http_avro_handler import HttpAvroHandler
+from .filter import (
+    MalebrancheLogFilter,
+)
+from .http_avro_handler import (
+    HttpAvroHandler,
+)
 
 
 class Logger:
