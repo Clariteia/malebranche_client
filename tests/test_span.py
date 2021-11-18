@@ -1,4 +1,6 @@
-from time import sleep
+from time import (
+    sleep,
+)
 
 import httpretty
 

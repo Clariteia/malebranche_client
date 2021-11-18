@@ -1,8 +1,14 @@
 import unittest
-from os import wait
-from time import sleep
+from os import (
+    wait,
+)
+from time import (
+    sleep,
+)
 
-from malebranche.client.profiler import Profiler
+from malebranche.client.profiler import (
+    Profiler,
+)
 
 
 class TestProfiler(unittest.TestCase):
@@ -24,5 +30,5 @@ class TestProfiler(unittest.TestCase):
         self.profiler.print_results()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -8,7 +8,9 @@ from .context import (
 from .logger import (
     Logger,
 )
-from .profiler import Profiler
+from .profiler import (
+    Profiler,
+)
 
 SPANS_TREE = ContextVar("malebranche.spans")
 
