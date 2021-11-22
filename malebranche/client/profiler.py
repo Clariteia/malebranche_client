@@ -12,6 +12,6 @@ class Profiler:
     def stop(self):
         self.profiler.disable()
 
-    def print_results(self):
+    def print(self):
         stats = pstats.Stats(self.profiler)
         stats.print_stats()

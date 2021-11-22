@@ -48,5 +48,3 @@ class Span:
         else:
             self.context.remove_child()
         # logger.setLevel(old_level)
-
-        self.profiler.print_results()

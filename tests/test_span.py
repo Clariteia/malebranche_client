@@ -42,5 +42,13 @@ def test_simple():
 
 def test_playground():
     with Span() as span:
-        for i in range(10):
-            sleep(0.01)
+        def a():
+            print(999998 in d)
+
+        def b():
+            print(999998 in l)
+
+        d = {i: i for i in range(999999)}
+        l = [i for i in range(999999)]
+        a()
+        b()

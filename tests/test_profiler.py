@@ -1,7 +1,4 @@
 import unittest
-from os import (
-    wait,
-)
 from time import (
     sleep,
 )
@@ -24,10 +21,10 @@ class TestProfiler(unittest.TestCase):
 
     def test_print(self):
         self.profiler.start()
-        for i in range(100):
+        for i in range(10):
             sleep(0.001)
         self.profiler.stop()
-        self.profiler.print_results()
+        self.profiler.print()
 
 
 if __name__ == "__main__":
