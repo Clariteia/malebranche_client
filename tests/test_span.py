@@ -42,6 +42,7 @@ def test_simple():
 
 def test_playground():
     with Span() as span:
+
         def a():
             print(999998 in d)
 
