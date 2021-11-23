@@ -9,9 +9,6 @@ from contextvars import (
 from malebranche.client.context import (
     ContextManager,
 )
-from malebranche.client.logger.logger import (
-    Logger,
-)
 from malebranche.client.parsers import (
     SystemParser,
 )
@@ -35,8 +32,7 @@ def start_span(level=logging.DEBUG):
         context: ContextManager = ContextManager()
         token = _EXECUTION_LOG_CONTEXT.set(context)
     try:
-        logger = Logger(__name__, context, level)
-        yield Span(logger)
+        yield Span().__enter__()
     finally:
         if is_root:
             _EXECUTION_LOG_CONTEXT.reset(token)
