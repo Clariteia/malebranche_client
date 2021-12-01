@@ -1,6 +1,8 @@
 import unittest
 
-from malebranche.client.memory import Memory
+from malebranche.client.memory import (
+    Memory,
+)
 
 
 class TestMemory(unittest.TestCase):
@@ -21,5 +23,5 @@ class TestMemory(unittest.TestCase):
         self.memory.print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

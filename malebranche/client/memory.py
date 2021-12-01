@@ -1,5 +1,7 @@
 import tracemalloc
-from tracemalloc import Snapshot
+from tracemalloc import (
+    Snapshot,
+)
 
 
 class Memory:
@@ -14,5 +16,5 @@ class Memory:
         tracemalloc.stop()
 
     def print(self):
-        for stat in self.snapshot.statistics('lineno'):
+        for stat in self.snapshot.statistics("lineno"):
             print(stat)

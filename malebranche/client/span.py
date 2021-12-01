@@ -8,7 +8,9 @@ from .context import (
 from .logger import (
     Logger,
 )
-from .memory import Memory
+from .memory import (
+    Memory,
+)
 from .profiler import (
     Profiler,
 )
