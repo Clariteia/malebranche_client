@@ -8,6 +8,9 @@ from .context import (
 from .logger import (
     Logger,
 )
+from .memory import (
+    Memory,
+)
 from .profiler import (
     Profiler,
 )
@@ -22,6 +25,7 @@ class Span:
         self.token = None
         self.context = None
         self.profiler = Profiler()
+        self.memory = Memory()
 
     def __enter__(self):
         try:
@@ -37,11 +41,13 @@ class Span:
         self.logger = Logger(__name__, self.context, "INFO")
 
         self.profiler.start()
+        self.memory.start()
 
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.profiler.stop()
+        self.memory.stop()
 
         if self.is_root:
             SPANS_TREE.reset(self.token)

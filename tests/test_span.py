@@ -1,7 +1,3 @@
-from time import (
-    sleep,
-)
-
 import httpretty
 
 from malebranche.client import (
