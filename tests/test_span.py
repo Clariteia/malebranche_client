@@ -1,3 +1,7 @@
+from time import (
+    sleep,
+)
+
 import httpretty
 
 from malebranche.client import (
@@ -34,3 +38,18 @@ def test_logger_multi_context():
 def test_simple():
     with Span() as span:
         span.logger.info("Hello, world!")
+
+
+def test_playground():
+    with Span() as span:
+
+        def a():
+            print(999998 in d)
+
+        def b():
+            print(999998 in l)
+
+        d = {i: i for i in range(999999)}
+        l = [i for i in range(999999)]
+        a()
+        b()
