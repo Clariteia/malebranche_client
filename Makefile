@@ -94,4 +94,4 @@ precommit:
 	pre-commit install --hook-type pre-push
 
 unprecommit:
-	pre-commit uninstall
+	pre-commit uninstall --hook-type pre-push
